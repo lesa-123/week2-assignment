@@ -21,7 +21,7 @@ const images = [
     alt: "Close-up of intricately carved stone monk statues holding staffs, arranged in a row",
   },
   {
-    src: "./Images/Many statues.jpg",
+    src: "./Images/Many_statues.jpg",
     alt: "Collection of small stone monk statues holding offering bowls, arranged in neat rows",
   },
   {
@@ -37,23 +37,23 @@ const images = [
     alt: "Tall green bamboo stalks in a dense bamboo grove surrounded by lush greenery",
   },
   {
-    src: "./Images/mnt fuji.jpg",
+    src: "./Images/mnt_fuji.jpg",
     alt: "Mount Fuji with a snow-capped peak reflected on a calm lake, framed by vibrant red maple leaves against a clear blue sky",
   },
   {
-    src: "./Images/kokomae crossing2.jpg",
+    src: "./Images/kokomae_crossing2.jpg",
     alt: "A person walking across a railroad in Kokomae crossing with yellow and black signal poles near the sea under a bright blue sky",
   },
   {
-    src: "./Images/kokomae crossing.jpg",
+    src: "./Images/kokomae_crossing.jpg",
     alt: "Bustling railroad crossing in Kokomae Japan near the sea with people and vehicles waiting, and waves crashing under golden evening light",
   },
   {
-    src: "./Images/train passing1.jpg",
+    src: "./Images/train_passing1.jpg",
     alt: "A green and yellow train arriving at a platform in Kokomae Japan with the sea and golden sunset sky in the background",
   },
   {
-    src: "./Images/train passing2.jpg",
+    src: "./Images/train_passing2.jpg",
     alt: "A green and yellow train moving along a lush railway track surrounded by dense green foliage",
   },
 ];
@@ -61,62 +61,72 @@ const images = [
 // DOM Elements
 const thumbnailContainer = document.querySelector(".thumbnail-container");
 const largeImage = document.getElementById("large-image");
+let currentImageIndex = 0; // Track the current image index
 
-// Create thumbnails dynamically
+// Function to create thumbnails dynamically
 function createThumbnails(imagesArray) {
   imagesArray.forEach((image, index) => {
     const thumbnail = document.createElement("img");
-    thumbnail.src = image.src;
+
+    // Dynamically construct the base name safely (remove extension and spaces)
+    const baseName = image.src.replace(/\.[^/.]+$/, "").replace(/\s+/g, "_"); // Replace spaces with underscores
+
+    // Set thumbnail attributes
+    thumbnail.src = `${baseName}-small.jpg`; // Use small image version
     thumbnail.alt = image.alt;
     thumbnail.className = "thumbnail";
-    // Mark as interactive for screen readers
-    thumbnail.setAttribute("role", "button");
-    // add ARIA label for clarity
-    thumbnail.setAttribute(
-      "aria-label",
-      `View image ${index + 1}: ${image.alt}`
-    );
 
+    // Set responsive srcset
+    thumbnail.srcset = `
+        ${baseName}-small.jpg 480w,
+        ${baseName}-medium.jpg 768w,
+        ${baseName}-large.jpg 1200w
+      `;
+    thumbnail.sizes =
+      "(max-width: 480px) 100px, (max-width: 768px) 200px, 400px";
+
+    // Event listener for large image display
     thumbnail.addEventListener("click", () => {
-      displayLargeImage(image);
+      displayLargeImage(baseName, image.alt);
     });
 
     thumbnailContainer.appendChild(thumbnail);
   });
 }
 
-// Update large image container for dynamic announcements
-function displayLargeImage(image) {
-  largeImage.src = image.src;
+function displayLargeImage(baseName, alt) {
+  largeImage.src = `${baseName}-large.jpg`; // Use large image
   largeImage.srcset = `
-      ${image.src.replace(".jpg", ".-small.jpg")} 480w,
-      ${image.src.replace(".jpg", ".-medium.jpg")} 768w,
-      ${image.src.replace(".jpg", ".-large.jpg")} 1200w
+      ${baseName}-small.jpg 480w,
+      ${baseName}-medium.jpg 768w,
+      ${baseName}-large.jpg 1200w
     `;
   largeImage.sizes = "(max-width: 768px) 80vw, 100vw";
-  largeImage.alt = image.alt;
-
-  // Correctly set the ARIA live attribute
-  largeImage.setAttribute("aria-live", "polite");
+  largeImage.alt = alt;
 }
 
-// Add an Event Listener to allow switching images with keyboard input
-let currentImageIndex = 0;
-
-// Function to handle keyboard navigation
+// Keyboard navigation to switch images
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight") {
-    // Navigate to the next image
     currentImageIndex = (currentImageIndex + 1) % images.length;
-    displayLargeImage(images[currentImageIndex]);
+    const baseName = images[currentImageIndex].src.substring(
+      0,
+      images[currentImageIndex].src.lastIndexOf(".")
+    );
+    displayLargeImage(baseName, images[currentImageIndex].alt);
   } else if (event.key === "ArrowLeft") {
-    // Navigate to the previous image
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length; // Wrap around
-    displayLargeImage(images[currentImageIndex]);
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    const baseName = images[currentImageIndex].src.substring(
+      0,
+      images[currentImageIndex].src.lastIndexOf(".")
+    );
+    displayLargeImage(baseName, images[currentImageIndex].alt);
   }
 });
 
-// Initialise the gallery
+// Initialize the gallery
 createThumbnails(images);
-// Show the first image by default
-displayLargeImage(images[0]);
+displayLargeImage(
+  images[0].src.substring(0, images[0].src.lastIndexOf(".")),
+  images[0].alt
+);
