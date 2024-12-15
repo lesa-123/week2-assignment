@@ -3,112 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- I used MiniReset.css to ensure that the reset CSS takes effect first, and my custom styles overrides it where necessary. -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css"
     />
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="./style.css" />
     <title>Image Gallery</title>
   </head>
   <body>
-    <h1>Image Gallery</h1>
-    <!--This is where all my small images (thumbanils) will be placed. To allow users to preview images and choose which one they want to view in a larger format.)-->
-    <!--Thumbnail Container-->
-    <div class="thumbnail-container">
-      <img
-        src="./Images/Temple1.jpg"
-        class="thumbnail"
-        data-large="images/Temple1.jpg"
-        alt="Monk walking up stone steps to a Japanese temple surrounded by lush green trees"
-      />
-      <img
-        src="./Images/Temple2.jpg"
-        class="thumbnail"
-        data-large="images/Temple2"
-        alt="Visitors climbing large stone steps leading to a traditional Japanese temple gate with red pillars and green-tiled roof"
-      />
-      <img
-        src="./Images/statue.jpg"
-        class="thumbnail"
-        data-large="images/statue.jpg"
-        alt="Large bronze Buddha statue in a meditative pose, surrounded by visitors and trees under a clear blue sky"
-      />
-      <img
-        src="./Images/statues.jpg"
-        class="thumbnail"
-        data-large="images/statues.jpg"
-        alt="Close-up of intricately carved stone monk statues holding staffs, arranged in a row"
-      />
-      <img
-        src="./Images/Many statues.jpg"
-        class="thumbnail"
-        data-large="images/Many statues.jpg"
-        alt="Collection of small stone monk statues holding offering bowls, arranged in neat rows"
-      />
-      <img
-        src="./Images/meigetsuin.jpg"
-        class="thumbnail"
-        data-large="images/meigetsuin.jpg"
-        alt="Japanese temple interior with a vibrant red circular window framing a scenic landscape and decorative lanterns hanging from the ceiling"
-      />
-      <img
-        src="./Images/hydrangeas.jpg"
-        class="thumbnail"
-        data-large="images/hydrangeas.jpg"
-        alt="Close-up of a vibrant blue hydrangea flower surrounded by dark green leaves"
-      />
-      <img
-        src="./Images/hokokuji.jpg"
-        class="thumbnail"
-        data-large="images/hokokuji.jpg"
-        alt="Tall green bamboo stalks in a dense bamboo grove surrounded by lush greenery"
-      />
-      <img
-        src="./Images/mnt fuji.jpg"
-        class="thumbnail"
-        data-large="images/mnt fuji"
-        alt="Mount Fuji with a snow-capped peak reflected on a calm lake, framed by vibrant red maple leaves against a clear blue sky"
-      />
-      <img
-        src="./Images/kokomae crossing2.jpg"
-        class="thumbnail"
-        data-large="images/kokomae crossing2.jpg"
-        alt="A person walking across a railroad in Kokomae crossing with yellow and black signal poles near the sea under a bright blue sky"
-      />
-      <img
-        src="./Images/kokomae crossing.jpg"
-        class="thumbnail"
-        data-large="images/kokomae crossing.jpg"
-        alt="Bustling railroad crossing in Kokomae Japan near the sea with people and vehicles waiting, and waves crashing under golden evening light"
-      />
-      <img
-        src="./Images/train passing1.jpg"
-        class="thumbnail"
-        data-large="images/train passing1.jpg"
-        alt="A green and yellow train arriving at a platform in Kokomae Japan with the sea and golden sunset sky in the background"
-      />
-      <img
-        src="./Images/train passing2.jpg"
-        class="thumbnail"
-        data-large="images/train passing2.jpg"
-        alt="A green and yellow train moving along a lush railway track surrounded by dense green foliage"
-      />
+    <header>
+      <h1>Image Gallery</h1>
+    </header>
+    <div class="thumbnail-container"></div>
+    <div class="large-image-container">
+      <img id="large-image" alt="Large version of selected image" />
     </div>
-
-    <!--This container is where the larger version of the image is displayed after a user clicks on a thumbnail.-->
-    <!--Large Image Container-->
-    <div id="large-image-container">
-      <img
-        id="large-image"
-        src="images/Temple1_large.jpg"
-        alt="Large version of selected image"
-      />
-    </div>
-
-    <!-- I placed the script tag at the end to ensure faster page rendering and to prevent JS errors from interacting with unrendered elements. -->
-    <!--JS File-->
     <script src="./app.js" defer></script>
   </body>
 </html>
