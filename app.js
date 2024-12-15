@@ -67,6 +67,13 @@ function createThumbnails(imagesArray) {
   imagesArray.forEach((image) => {
     const thumbnail = document.createElement("img");
     thumbnail.src = image.src;
+    thumbnail.srcset = `
+        ${image.src.replace(".jpg", "-small.jpg")} 480w,
+        ${image.src.replace(".jpg", "-medium.jpg")} 768w,
+        ${image.src.replace(".jpg", "-large.jpg")} 1200w
+      `;
+    thumbnail.sizes =
+      "(max-width: 480px) 100px, (max-width: 768px) 200px, 400px";
     thumbnail.alt = image.alt;
     thumbnail.className = "thumbnail";
 
@@ -79,12 +86,19 @@ function createThumbnails(imagesArray) {
   });
 }
 
-// Display large image
+// Display large image with srcset
 function displayLargeImage(image) {
   largeImage.src = image.src;
+  largeImage.srcset = `
+      ${image.src.replace(".jpg", "-small.jpg")} 480w,
+      ${image.src.replace(".jpg", "-medium.jpg")} 768w,
+      ${image.src.replace(".jpg", "-large.jpg")} 1200w
+    `;
+  largeImage.sizes = "(max-width: 768px) 80vw, 100vw";
   largeImage.alt = image.alt;
 }
 
-// Initialize the gallery
+// Initialise the gallery
 createThumbnails(images);
-displayLargeImage(images[0]); // Show the first image by default
+// Show the first image by default
+displayLargeImage(images[0]);
