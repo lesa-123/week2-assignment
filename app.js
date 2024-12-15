@@ -64,20 +64,19 @@ const largeImage = document.getElementById("large-image");
 
 // Create thumbnails dynamically
 function createThumbnails(imagesArray) {
-  imagesArray.forEach((image) => {
+  imagesArray.forEach((image, index) => {
     const thumbnail = document.createElement("img");
     thumbnail.src = image.src;
-    thumbnail.srcset = `
-        ${image.src.replace(".jpg", "-small.jpg")} 480w,
-        ${image.src.replace(".jpg", "-medium.jpg")} 768w,
-        ${image.src.replace(".jpg", "-large.jpg")} 1200w
-      `;
-    thumbnail.sizes =
-      "(max-width: 480px) 100px, (max-width: 768px) 200px, 400px";
     thumbnail.alt = image.alt;
     thumbnail.className = "thumbnail";
+    // Mark as interactive for screen readers
+    thumbnail.setAttribute("role", "button");
+    // add ARIA label for clarity
+    thumbnail.setAttribute(
+      "aria-label",
+      `View image ${index + 1}: ${image.alt}`
+    );
 
-    // Event listener to display the large image
     thumbnail.addEventListener("click", () => {
       displayLargeImage(image);
     });
@@ -86,7 +85,7 @@ function createThumbnails(imagesArray) {
   });
 }
 
-// Display large image with srcset
+// Update large image container for dynamic announcements
 function displayLargeImage(image) {
   largeImage.src = image.src;
   largeImage.srcset = `
@@ -96,6 +95,9 @@ function displayLargeImage(image) {
     `;
   largeImage.sizes = "(max-width: 768px) 80vw, 100vw";
   largeImage.alt = image.alt;
+
+  // Correctly set the ARIA live attribute
+  largeImage.setAttribute("aria-live", "polite");
 }
 
 // Initialise the gallery
