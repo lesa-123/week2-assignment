@@ -89,9 +89,9 @@ function createThumbnails(imagesArray) {
 function displayLargeImage(image) {
   largeImage.src = image.src;
   largeImage.srcset = `
-      ${image.src.replace(".jpg", "-small.jpg")} 480w,
-      ${image.src.replace(".jpg", "-medium.jpg")} 768w,
-      ${image.src.replace(".jpg", "-large.jpg")} 1200w
+      ${image.src.replace(".jpg", ".-small.jpg")} 480w,
+      ${image.src.replace(".jpg", ".-medium.jpg")} 768w,
+      ${image.src.replace(".jpg", ".-large.jpg")} 1200w
     `;
   largeImage.sizes = "(max-width: 768px) 80vw, 100vw";
   largeImage.alt = image.alt;
@@ -99,6 +99,22 @@ function displayLargeImage(image) {
   // Correctly set the ARIA live attribute
   largeImage.setAttribute("aria-live", "polite");
 }
+
+// Add an Event Listener to allow switching images with keyboard input
+let currentImageIndex = 0;
+
+// Function to handle keyboard navigation
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight") {
+    // Navigate to the next image
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    displayLargeImage(images[currentImageIndex]);
+  } else if (event.key === "ArrowLeft") {
+    // Navigate to the previous image
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length; // Wrap around
+    displayLargeImage(images[currentImageIndex]);
+  }
+});
 
 // Initialise the gallery
 createThumbnails(images);
