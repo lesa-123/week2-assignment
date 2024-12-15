@@ -55,3 +55,34 @@ const images = [
     alt: "A green and yellow train moving along a lush railway track surrounded by dense green foliage",
   },
 ];
+
+// To Do: I want to create my thumnail images
+// Select DOM elements being manipulated:
+const thumbnailContainer = document.querySelector(".thumbnail-container");
+const largeImageContainer = document.querySelector(".large-image-container");
+
+// Function to create thumbnail images:
+function createThumbnails(imagesArray) {
+  //Loop through the array to create multiple thumbnails
+  imagesArray.forEach((images) => {
+    // create an image element
+    const thumbnail = document.createElement("img");
+    // Assign properties to the image element
+    thumbnail.src = image.src;
+    thumbnail.alt = image.alt;
+    // Add a class to style name
+    thumbnail.className = "thumbnail";
+
+    // Add an event listener for when the user clicks on the thumbnail
+    thumbnail.addEventListener("click", () => {
+      // call the events handler
+      createLargeImagesHandler(image);
+    });
+
+    // Change the theumbnail image to the thumbnail container
+    thumbnailContainer.appendChild(thumbnail);
+  });
+}
+
+//Call the function to create thumbnails
+createThumbnails(images);
