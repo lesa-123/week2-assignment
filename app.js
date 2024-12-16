@@ -57,76 +57,53 @@ const images = [
     alt: "A green and yellow train moving along a lush railway track surrounded by dense green foliage",
   },
 ];
-
 // DOM Elements
 const thumbnailContainer = document.querySelector(".thumbnail-container");
 const largeImage = document.getElementById("large-image");
-let currentImageIndex = 0; // Track the current image index
-
+let currentImageIndex = 0;
 // Function to create thumbnails dynamically
 function createThumbnails(imagesArray) {
+  // Clear existing thumbnails to avoid duplicates
+  thumbnailContainer.innerHTML = "";
   imagesArray.forEach((image, index) => {
     const thumbnail = document.createElement("img");
-
-    // Dynamically construct the base name safely (remove extension and spaces)
-    const baseName = image.src.replace(/\.[^/.]+$/, "").replace(/\s+/g, "_"); // Replace spaces with underscores
-
+    // Dynamically construct the base name
+    const baseName = image.src.replace(/\.[^/.]+$/, "").replace(/\s+/g, "_");
     // Set thumbnail attributes
-    thumbnail.src = `${baseName}-small.jpg`; // Use small image version
+    thumbnail.src = `${baseName}-small.jpg`;
     thumbnail.alt = image.alt;
+    thumbnail.width = 120;
+    thumbnail.height = 120;
     thumbnail.className = "thumbnail";
-
-    // Set responsive srcset
-    thumbnail.srcset = `
-        ${baseName}-small.jpg 480w,
-        ${baseName}-medium.jpg 768w,
-        ${baseName}-large.jpg 1200w
-      `;
-    thumbnail.sizes =
-      "(max-width: 480px) 100px, (max-width: 768px) 200px, 400px";
-
-    // Event listener for large image display
+    thumbnail.setAttribute("loading", "lazy");
+    // Add event listener to display large image
     thumbnail.addEventListener("click", () => {
+      currentImageIndex = index;
       displayLargeImage(baseName, image.alt);
     });
-
+    // Append thumbnail to the container
     thumbnailContainer.appendChild(thumbnail);
   });
 }
-
+// Function to display the large image
 function displayLargeImage(baseName, alt) {
-  largeImage.src = `${baseName}-large.jpg`; // Use large image
-  largeImage.srcset = `
-      ${baseName}-small.jpg 480w,
-      ${baseName}-medium.jpg 768w,
-      ${baseName}-large.jpg 1200w
-    `;
-  largeImage.sizes = "(max-width: 768px) 80vw, 100vw";
+  largeImage.src = `${baseName}-large.jpg`;
   largeImage.alt = alt;
+  largeImage.width = 1200;
+  largeImage.height = 800;
 }
-
 // Keyboard navigation to switch images
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight") {
     currentImageIndex = (currentImageIndex + 1) % images.length;
-    const baseName = images[currentImageIndex].src.substring(
-      0,
-      images[currentImageIndex].src.lastIndexOf(".")
-    );
+    const baseName = images[currentImageIndex].src.replace(/\.[^/.]+$/, "");
     displayLargeImage(baseName, images[currentImageIndex].alt);
   } else if (event.key === "ArrowLeft") {
     currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    const baseName = images[currentImageIndex].src.substring(
-      0,
-      images[currentImageIndex].src.lastIndexOf(".")
-    );
+    const baseName = images[currentImageIndex].src.replace(/\.[^/.]+$/, "");
     displayLargeImage(baseName, images[currentImageIndex].alt);
   }
 });
-
 // Initialize the gallery
 createThumbnails(images);
-displayLargeImage(
-  images[0].src.substring(0, images[0].src.lastIndexOf(".")),
-  images[0].alt
-);
+displayLargeImage(images[0].src.replace(/\.[^/.]+$/, ""), images[0].alt);
