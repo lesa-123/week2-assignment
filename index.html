@@ -3,21 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css"
+    <meta
+      name="description"
+      content="A responsive image gallery showcasing beautiful images of temples, statues, and scenic landscapes."
     />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preload" href="./Images/Temple1-large.jpg" as="image" />
+    <script src="./app.js" defer></script>
     <title>Image Gallery</title>
   </head>
   <body>
     <header>
       <h1>Image Gallery</h1>
     </header>
-    <div class="thumbnail-container"></div>
-    <div class="large-image-container">
+    <div class="thumbnail-container" role="list"></div>
+    <div class="large-image-container" aria-live="polite">
       <img id="large-image" alt="Large version of selected image" />
     </div>
-    <script src="./app.js" defer></script>
   </body>
 </html>
